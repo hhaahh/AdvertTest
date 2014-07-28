@@ -1,6 +1,12 @@
 function NewsController($scope, $http) {
     $scope.news = [];
 
+    $scope.orderOptions = {
+        field: 'created_date'
+    };
+
+    $scope.reverseOptions = {};
+
     $scope.getNews = function() {
         $http({
             url: '/news/getNews',
@@ -11,5 +17,16 @@ function NewsController($scope, $http) {
                 $scope.news.push(newsItem);
             });
         });
+    }
+
+    $scope.setOrder = function(field, reverse) {
+        if ($scope.orderOptions.field != field) {
+            $scope.reverseOptions[field] = reverse;
+        } else {
+            $scope.reverseOptions[field] = !$scope.reverseOptions[field];
+        }
+        $scope.orderOptions.field = field;
+
+        return false;
     }
 }
